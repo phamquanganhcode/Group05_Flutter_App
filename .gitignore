@@ -1,0 +1,58 @@
+# ==========================================
+# 1. Môi trường & Khóa bí mật (Secrets)
+# ==========================================
+.env
+*.env
+*.env.*
+*.env.local
+key.properties
+*.jks
+*.keystore
+
+# ==========================================
+# 2. Flutter / Dart
+# ==========================================
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+ephemeral/
+
+# ==========================================
+# 3. Android Native
+# ==========================================
+.gradle/
+local.properties
+**/android/app/build/
+**/android/.gradle/
+
+# ==========================================
+# 4. iOS Native
+# ==========================================
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+Podfile.lock
+
+# ==========================================
+# 5. Node / Web dependencies (nếu có)
+# ==========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================================
+# 6. IDEs & Hệ điều hành
+# ==========================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
