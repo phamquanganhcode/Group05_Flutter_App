@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:budget/database/tables.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('Danh mục mặc định cho sinh viên', () {
+    // Chưa khởi tạo EasyLocalization nên .tr() trả về chính khóa dịch
     List<TransactionCategory> categories = defaultCategories();
 
     // Khóa chính và thứ tự không bị trùng
@@ -13,23 +15,31 @@ void main() {
         categories.length);
     expect(categories.map((c) => c.order).toSet().length, categories.length);
 
-    // Các danh mục mới tồn tại với đúng loại chi tiêu/thu nhập
-    Map<String, bool> expected = {
-      "Tiền trọ": false,
-      "Đóng học phí": false,
-      "Trà sữa": false,
-      "Giáo trình": false,
-      "Tiền gia đình gửi": true,
-      "Học bổng": true,
+    Map en = jsonDecode(
+        File("assets/translations/generated/en.json").readAsStringSync());
+    Map vi = jsonDecode(
+        File("assets/translations/generated/vi.json").readAsStringSync());
+
+    // Các danh mục mới: loại chi tiêu/thu nhập và bản dịch tiếng Việt
+    Map<String, (bool, String)> expected = {
+      "default-category-rent": (false, "Tiền trọ"),
+      "default-category-tuition": (false, "Đóng học phí"),
+      "default-category-milk-tea": (false, "Trà sữa"),
+      "default-category-textbooks": (false, "Giáo trình"),
+      "default-category-family-allowance": (true, "Tiền gia đình gửi"),
+      "default-category-scholarship": (true, "Học bổng"),
     };
-    expected.forEach((name, income) {
+    expected.forEach((key, value) {
       TransactionCategory category =
-          categories.firstWhere((c) => c.name == name);
-      expect(category.income, income);
+          categories.firstWhere((c) => c.name == key);
+      expect(category.income, value.$1);
+      expect(vi[key], value.$2);
     });
 
-    // Biểu tượng của mọi danh mục đều có trong assets
     for (TransactionCategory category in categories) {
+      // Mọi danh mục đều có bản dịch tiếng Anh (ngôn ngữ dự phòng)
+      expect(en.containsKey(category.name), true, reason: category.name);
+      // Biểu tượng có trong assets
       expect(File("assets/categories/${category.iconName}").existsSync(), true,
           reason: category.iconName);
     }

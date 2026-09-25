@@ -139,7 +139,7 @@ List<TransactionCategory> defaultCategories() {
     // Danh mục phù hợp với sinh viên
     TransactionCategory(
       categoryPk: "12",
-      name: "Tiền trọ",
+      name: "default-category-rent".tr(),
       colour: toHexString(Colors.indigo),
       iconName: "rent.png",
       dateCreated: DateTime.now(),
@@ -149,7 +149,7 @@ List<TransactionCategory> defaultCategories() {
     ),
     TransactionCategory(
       categoryPk: "13",
-      name: "Đóng học phí",
+      name: "default-category-tuition".tr(),
       colour: toHexString(Colors.teal),
       iconName: "graduation.png",
       dateCreated: DateTime.now(),
@@ -159,7 +159,7 @@ List<TransactionCategory> defaultCategories() {
     ),
     TransactionCategory(
       categoryPk: "14",
-      name: "Trà sữa",
+      name: "default-category-milk-tea".tr(),
       colour: toHexString(Colors.amber),
       iconName: "bubble-tea.png",
       dateCreated: DateTime.now(),
@@ -169,7 +169,7 @@ List<TransactionCategory> defaultCategories() {
     ),
     TransactionCategory(
       categoryPk: "15",
-      name: "Giáo trình",
+      name: "default-category-textbooks".tr(),
       colour: toHexString(Colors.lightBlue),
       iconName: "open-book.png",
       dateCreated: DateTime.now(),
@@ -179,7 +179,7 @@ List<TransactionCategory> defaultCategories() {
     ),
     TransactionCategory(
       categoryPk: "16",
-      name: "Tiền gia đình gửi",
+      name: "default-category-family-allowance".tr(),
       colour: toHexString(Colors.lightGreen),
       iconName: "parents.png",
       dateCreated: DateTime.now(),
@@ -189,7 +189,7 @@ List<TransactionCategory> defaultCategories() {
     ),
     TransactionCategory(
       categoryPk: "17",
-      name: "Học bổng",
+      name: "default-category-scholarship".tr(),
       colour: toHexString(Colors.deepOrange),
       iconName: "trophy.png",
       dateCreated: DateTime.now(),
