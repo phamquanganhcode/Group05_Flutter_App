@@ -108,13 +108,17 @@ class InitializeLocalizations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale defaultLocale =
+        supportedLocales["vi"] ?? supportedLocales.values.first;
+
     return EasyLocalization(
       useOnlyLangCode: false,
       assetLoader: RootBundleAssetLoaderCustomLocaleLoader(),
       supportedLocales: supportedLocales.values.toList(),
       path: 'assets/translations/generated',
       useFallbackTranslations: true,
-      fallbackLocale: supportedLocales.values.toList().first,
+      fallbackLocale: defaultLocale,
+      startLocale: defaultLocale,
       child: child,
     );
   }
