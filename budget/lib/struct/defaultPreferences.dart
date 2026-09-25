@@ -216,9 +216,9 @@ Future<Map<String, dynamic>> getDefaultPreferences() async {
     "transactionsListPageSetFiltersString": null,
     "increaseTextContrast": false,
     "customNumberFormat": false,
-    "numberFormatDelimiter": ",",
-    "numberFormatDecimal": ".",
-    "numberFormatCurrencyFirst": true,
+    "numberFormatDelimiter": ".",
+    "numberFormatDecimal": ",",
+    "numberFormatCurrencyFirst": false,
     "shortNumberFormat": null, //null, compact
     "netAllSpendingTotal": false,
     "netSpendingDayTotal": false,
@@ -375,6 +375,10 @@ attemptToMigrateCustomNumberFormattingSettings() {
         appStateSettings["numberFormatCurrencyFirst"] = false;
       } else if (appStateSettings["numberFormatLocale"] == "fr") {
         appStateSettings["numberFormatDelimiter"] = " ";
+        appStateSettings["numberFormatDecimal"] = ",";
+        appStateSettings["numberFormatCurrencyFirst"] = false;
+      } else if (appStateSettings["numberFormatLocale"] == "vi") {
+        appStateSettings["numberFormatDelimiter"] = ".";
         appStateSettings["numberFormatDecimal"] = ",";
         appStateSettings["numberFormatCurrencyFirst"] = false;
       }

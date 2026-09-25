@@ -31,8 +31,8 @@ String getDecimalSeparator() {
   }
   String? locale = appStateSettings["customNumberFormat"] == true
       ? "en-US"
-      : Platform.localeName;
-  return numberFormatSymbols[(locale).split("-")[0]]?.DECIMAL_SEP ?? ".";
+      : "vi_VN";
+  return numberFormatSymbols[(locale).split("-")[0].split("_")[0]]?.DECIMAL_SEP ?? ",";
 }
 
 enum NumberPadFormat {

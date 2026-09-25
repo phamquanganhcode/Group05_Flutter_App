@@ -5115,8 +5115,8 @@ class FinanceDatabase extends _$FinanceDatabase {
       allTransactionsToUpdate.add(transaction.copyWith(
         amount: (amountRatioFromToCurrency(
                     allWallets.indexedByPk[transaction.walletFk]?.currency ??
-                        "usd",
-                    allWallets.indexedByPk[toWalletPk]?.currency ?? "usd") ??
+                        "vnd",
+                    allWallets.indexedByPk[toWalletPk]?.currency ?? "vnd") ??
                 1) *
             transaction.amount,
         dateTimeModified: Value(DateTime.now()),

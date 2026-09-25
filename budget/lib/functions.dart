@@ -213,9 +213,10 @@ String convertToMoney(AllWallets allWallets, double amount,
           : 0;
   String? locale = appStateSettings["customNumberFormat"] == true
       ? "en-US"
-      : Platform.localeName;
+      : "vi_VN";
   String? symbol =
       customSymbol ?? getCurrencyString(allWallets, currencyKey: currencyKey);
+  if (symbol.isEmpty) symbol = "đ";
 
   bool useCustomNumberFormat = forceCustomNumberFormat ||
       (forceNonCustomNumberFormat == false &&
@@ -323,7 +324,7 @@ String formatOutputWithNewDelimiterAndDecimal({
   if (appStateSettings["numberFormatCurrencyFirst"] == false) {
     return negativeSign +
         input +
-        (symbol.length > 0 ? "  " : "") +
+        (symbol.length > 0 ? " " : "") +
         symbol +
         (currencyName ?? "");
   } else {
@@ -687,7 +688,9 @@ DateTimeRange getBudgetDate(Budget budget, DateTime currentDate) {
 String getWordedNumber(
     BuildContext context, AllWallets allWallets, double value) {
   if (removeTrailingZeroes(value.toStringAsFixed(10)) == "0") {
-    return getCurrencyString(allWallets) + "0";
+    return appStateSettings["numberFormatCurrencyFirst"] == false
+        ? "0 " + getCurrencyString(allWallets)
+        : getCurrencyString(allWallets) + "0";
   }
   return convertToMoney(
     allWallets,
@@ -1187,6 +1190,7 @@ Future<bool> openUrl(String link) async {
 }
 
 List<String> popularCurrencies = [
+  'vnd', // Vietnamese Dong
   'usd', // United States Dollar
   'eur', // Euro
   'jpy', // Japanese Yen

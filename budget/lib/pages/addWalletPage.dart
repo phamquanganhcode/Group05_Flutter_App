@@ -164,7 +164,7 @@ class _AddWalletPageState extends State<AddWalletPage> {
       selectedColor = widget.wallet!.colour == null
           ? null
           : HexColor(widget.wallet!.colour);
-      selectedCurrency = widget.wallet!.currency ?? "usd";
+      selectedCurrency = widget.wallet!.currency ?? "vnd";
       selectedDecimals = widget.wallet!.decimals;
     }
     populateCurrencies();
