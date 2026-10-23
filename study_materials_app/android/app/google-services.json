@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1097800949514",
+    "project_id": "study-materials-dms",
+    "storage_bucket": "study-materials-dms.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097800949514:android:1e9968b05d8510b27124f3",
+        "android_client_info": {
+          "package_name": "com.example.study_materials_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk9anwahTBPmczf0CXpuS2lloZKUeBXZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

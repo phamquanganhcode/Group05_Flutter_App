@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Phân công TH2 - Group 5</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  body { font-family: Arial, sans-serif; font-size: 11pt; color: #111; line-height: 1.4; }
+  h1 { font-size: 17pt; text-align: center; margin: 0 0 4px; }
+  h2 { font-size: 13pt; margin: 18px 0 6px; border-bottom: 2px solid #1f4e79; color: #1f4e79; }
+  h3 { font-size: 11.5pt; margin: 12px 0 4px; }
+  .sub { text-align: center; margin: 0 0 12px; }
+  table { width: 100%; border-collapse: collapse; margin: 6px 0; page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  th, td { border: 1px solid #888; padding: 4px 6px; vertical-align: top; text-align: left; }
+  th { background: #dde7f2; }
+  code { font-family: Consolas, monospace; font-size: 9.5pt; }
+  .ok { color: #1a7f37; font-weight: bold; }
+  .part { color: #b26a00; font-weight: bold; }
+  .no { color: #c62828; font-weight: bold; }
+  ul { margin: 2px 0 2px 18px; padding: 0; }
+  .small { font-size: 9.5pt; color: #444; }
+  .member { page-break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<h1>BẢNG PHÂN CÔNG CÔNG VIỆC – TH2</h1>
+<p class="sub"><b>Phát triển Hệ thống Quản lý Tài liệu Đa nền tảng (Flutter + Firebase + Supabase)</b><br>
+Group 5 · Lớp 65KTPM · Dự án: <code>study_materials_app</code></p>
+
+<h2>1. Thành viên nhóm</h2>
+<table>
+  <tr><th>MSSV</th><th>Họ tên</th><th>Vai trò</th><th>Phụ trách chính</th></tr>
+  <tr><td>2351170573</td><td>Phạm Quang Anh</td><td>Nhóm trưởng</td><td>Kiến trúc, mô hình dữ liệu, Storage, kiểm thử &amp; đóng gói</td></tr>
+  <tr><td>2051063858</td><td>Nguyễn Phúc Bình An</td><td>Thành viên</td><td>Giao diện responsive (Mobile/Web) + Tag</td></tr>
+  <tr><td>2351060452</td><td>Ngô Đức Nam Khánh</td><td>Thành viên</td><td>Bản đồ / vị trí + thuật toán Recommendation</td></tr>
+  <tr><td>2351170597</td><td>Dương Văn Hưng</td><td>Thành viên</td><td>Luồng mượn / chia sẻ + Firebase Messaging</td></tr>
+</table>
+
+<h2>2. Đối chiếu checklist với phần đã làm (TH1) và code hiện có</h2>
+<p class="small">Nền tảng kế thừa từ TH1: đăng nhập Google qua Firebase Auth, CSDL Supabase có RLS, kiểm thử 3 tài khoản (Owner / Editor / Viewer).</p>
+<table>
+  <tr><th style="width:22%">Checklist</th><th style="width:43%">Đã có trong code</th><th style="width:25%">Còn thiếu</th><th style="width:10%">Mức độ</th></tr>
+  <tr>
+    <td>1. Kiến trúc &amp; mô hình dữ liệu Firebase (Auth/Messaging) + Supabase (DB/Storage)</td>
+    <td><ul>
+      <li><code>services/auth_service.dart</code>: Google Sign-In (popup trên Web, GoogleSignIn trên Mobile)</li>
+      <li><code>services/supabase_service.dart</code>: CRUD <code>profiles</code>, <code>documents</code>, <code>document_permissions</code>, <code>borrow_requests</code></li>
+      <li><code>supabase_schema_and_rls.sql</code>: 4 bảng + RLS</li>
+      <li>Drift (SQLite) làm cache offline; <code>cloud_sync_service.dart</code> đồng bộ Firestore</li>
+    </ul></td>
+    <td><ul>
+      <li>Chưa có <code>firebase_messaging</code></li>
+      <li>Chưa upload file lên Supabase Storage (chỉ lưu <code>file_url</code>)</li>
+      <li>Tag/vị trí đang nằm trong JSON ở cột <code>description</code>; chưa có sơ đồ kiến trúc</li>
+    </ul></td>
+    <td class="part">~70%</td>
+  </tr>
+  <tr>
+    <td>2. Giao diện Flutter đa nền tảng, responsive Mobile &amp; Web</td>
+    <td><ul>
+      <li><code>pages/home_page.dart</code>: <code>LayoutBuilder</code>, breakpoint 850px (Web/Desktop và Mobile)</li>
+      <li><code>pages/add_edit_material_page.dart</code>: form thêm/sửa tài liệu</li>
+    </ul></td>
+    <td><ul>
+      <li>Form thêm/sửa và các dialog chưa responsive</li>
+      <li>Chưa có breakpoint cho tablet; chưa kiểm tra trên Android thật</li>
+    </ul></td>
+    <td class="part">~75%</td>
+  </tr>
+  <tr>
+    <td>3. Phân loại bằng Tag + bản đồ/vị trí vật lý</td>
+    <td><ul>
+      <li><code>struct/material_meta.dart</code>: <code>tags</code>, <code>locationName</code>, <code>shelfCode</code>, <code>latitude/longitude</code>, <code>isPhysical</code></li>
+      <li>Thêm/xoá tag trong form (<code>_addTag</code>, <code>_removeTag</code>); lọc nhiều tag (<code>toggleTagFilter</code> trong <code>material_provider.dart</code>)</li>
+      <li><code>widgets/interactive_location_map_widget.dart</code>: bản đồ khuôn viên vẽ bằng <code>CustomPaint</code></li>
+    </ul></td>
+    <td><ul>
+      <li>Chưa có gợi ý tag khi nhập (autocomplete)</li>
+      <li>Bản đồ đang là bản vẽ mô phỏng, chưa có bản đồ thật (OSM) và chưa lấy vị trí GPS</li>
+    </ul></td>
+    <td class="part">~70%</td>
+  </tr>
+  <tr>
+    <td>4. Luồng yêu cầu mượn &amp; chia sẻ quyền truy cập</td>
+    <td><ul>
+      <li><code>widgets/share_document_dialog.dart</code>: chia sẻ quyền VIEW/EDIT theo email, thu hồi quyền</li>
+      <li><code>widgets/borrow_request_dialog.dart</code>, <code>borrow_management_dialog.dart</code></li>
+      <li><code>struct/borrow_request.dart</code>: trạng thái AVAILABLE → REQUESTED → BORROWED → RETURNED</li>
+    </ul></td>
+    <td><ul>
+      <li>Chưa gửi thông báo cho chủ tài liệu khi có yêu cầu mượn</li>
+      <li>Chưa cập nhật realtime, chưa nhắc hạn trả</li>
+    </ul></td>
+    <td class="part">~85%</td>
+  </tr>
+  <tr>
+    <td>5. Thuật toán Recommendation</td>
+    <td><ul>
+      <li><code>services/recommendation_service.dart</code>: độ tương đồng Jaccard theo tag (×1.5), cùng môn học (+0.30), gần vị trí ≤ 2km (tối đa +0.20, Haversine), độ phổ biến (tối đa +0.20); có giải thích lý do gợi ý</li>
+      <li><code>widgets/recommendations_view.dart</code></li>
+    </ul></td>
+    <td><ul>
+      <li>Comment trọng số (45/30/15/10) không khớp với công thức thực tế</li>
+      <li>Chưa dùng lịch sử xem/mượn để cập nhật sở thích người dùng</li>
+    </ul></td>
+    <td class="ok">~90%</td>
+  </tr>
+  <tr>
+    <td>6. Kiểm thử &amp; đóng gói</td>
+    <td><ul>
+      <li><code>test/app_test.dart</code>: unit test cho MaterialMeta, BorrowRequest, UserProfile, Provider, Recommendation</li>
+      <li><code>chay_web_app.bat</code>: chạy Web trên cổng 51428</li>
+    </ul></td>
+    <td><ul>
+      <li>Chưa có widget test / integration test cho luồng mượn và chia sẻ</li>
+      <li>Chưa build APK và bản Web release; chưa có báo cáo kiểm thử TH2</li>
+    </ul></td>
+    <td class="no">~40%</td>
+  </tr>
+</table>
+
+<h2>3. Phân công chi tiết</h2>
+
+<div class="member">
+<h3>3.1. Phạm Quang Anh (2351170573) – Nhóm trưởng · Checklist 1 &amp; 6</h3>
+<table>
+  <tr><th style="width:5%">#</th><th>Công việc</th><th style="width:30%">File / sản phẩm</th></tr>
+  <tr><td>1</td><td>Vẽ sơ đồ kiến trúc: Flutter ↔ Firebase (Auth, Messaging) ↔ Supabase (DB, Storage, RLS); vẽ ERD 4 bảng</td><td>Báo cáo TH2 – chương Kiến trúc</td></tr>
+  <tr><td>2</td><td>Chuyển tag và vị trí từ JSON trong <code>description</code> sang cột riêng (<code>tags text[]</code>, <code>latitude</code>, <code>longitude</code>, <code>shelf_code</code>); cập nhật RLS</td><td><code>supabase_schema_and_rls.sql</code>, <code>supabase_service.dart</code></td></tr>
+  <tr><td>3</td><td>Tích hợp Supabase Storage: tạo bucket <code>documents</code>, viết hàm upload/tải file, cấu hình policy theo <code>owner_id</code></td><td><code>supabase_service.dart</code>, <code>add_edit_material_page.dart</code></td></tr>
+  <tr><td>4</td><td>Quản lý code chung: review và merge phần của các thành viên, giải quyết xung đột</td><td>Repository nhóm</td></tr>
+  <tr><td>5</td><td>Tổng hợp kiểm thử: chạy <code>flutter test</code>, kiểm thử luồng chính với 3 tài khoản, viết báo cáo kiểm thử</td><td><code>test/</code>, báo cáo kiểm thử</td></tr>
+  <tr><td>6</td><td>Đóng gói: <code>flutter build apk --release</code> và <code>flutter build web</code>; hướng dẫn cài đặt; tổng hợp báo cáo và slide</td><td>APK, thư mục <code>build/web</code>, báo cáo</td></tr>
+</table>
+</div>
+
+<div class="member">
+<h3>3.2. Nguyễn Phúc Bình An (2051063858) · Checklist 2 &amp; phần Tag của Checklist 3</h3>
+<table>
+  <tr><th style="width:5%">#</th><th>Công việc</th><th style="width:30%">File / sản phẩm</th></tr>
+  <tr><td>1</td><td>Tạo bộ breakpoint dùng chung (mobile &lt; 600, tablet 600–850, desktop ≥ 850) và áp dụng cho toàn app</td><td><code>home_page.dart</code></td></tr>
+  <tr><td>2</td><td>Làm form thêm/sửa responsive: 1 cột trên mobile, 2 cột trên web</td><td><code>add_edit_material_page.dart</code></td></tr>
+  <tr><td>3</td><td>Các dialog (chia sẻ, mượn, quản lý mượn) hiển thị full-screen trên mobile và giới hạn chiều rộng trên web</td><td><code>widgets/*_dialog.dart</code></td></tr>
+  <tr><td>4</td><td>Tag: gợi ý tag đã dùng khi nhập (autocomplete), hiển thị tag cloud kèm số lượng tài liệu; kiểm tra lại bộ lọc nhiều tag</td><td><code>home_page.dart</code>, <code>material_provider.dart</code></td></tr>
+  <tr><td>5</td><td>Chụp màn hình giao diện trên Chrome và Android để đưa vào báo cáo; viết widget test cho chip tag</td><td><code>test/widget_test.dart</code></td></tr>
+</table>
+</div>
+
+<div class="member">
+<h3>3.3. Ngô Đức Nam Khánh (2351060452) · Phần vị trí của Checklist 3 &amp; Checklist 5</h3>
+<table>
+  <tr><th style="width:5%">#</th><th>Công việc</th><th style="width:30%">File / sản phẩm</th></tr>
+  <tr><td>1</td><td>Thay bản đồ <code>CustomPaint</code> bằng bản đồ thật (<code>flutter_map</code> + OpenStreetMap); đặt marker cho tài liệu vật lý, chạm marker để xem chi tiết</td><td><code>interactive_location_map_widget.dart</code></td></tr>
+  <tr><td>2</td><td>Lấy vị trí hiện tại của người dùng (<code>geolocator</code>), xin quyền vị trí trên Android và Web</td><td><code>pubspec.yaml</code>, <code>AndroidManifest.xml</code></td></tr>
+  <tr><td>3</td><td>Chọn vị trí trên bản đồ khi thêm tài liệu (kệ, tầng, toạ độ)</td><td><code>add_edit_material_page.dart</code></td></tr>
+  <tr><td>4</td><td>Recommendation: sửa comment trọng số cho khớp công thức; cộng thêm điểm từ lịch sử xem/mượn vào sở thích (<code>interests</code>)</td><td><code>recommendation_service.dart</code>, <code>user_profile.dart</code></td></tr>
+  <tr><td>5</td><td>Viết unit test cho Haversine và thứ tự xếp hạng gợi ý; trình bày công thức tính điểm trong báo cáo</td><td><code>test/app_test.dart</code></td></tr>
+</table>
+</div>
+
+<div class="member">
+<h3>3.4. Dương Văn Hưng (2351170597) · Checklist 4 &amp; Firebase Messaging</h3>
+<table>
+  <tr><th style="width:5%">#</th><th>Công việc</th><th style="width:30%">File / sản phẩm</th></tr>
+  <tr><td>1</td><td>Hoàn thiện luồng mượn: gửi yêu cầu → chủ tài liệu duyệt/từ chối → đang mượn → trả; chặn mượn trùng</td><td><code>borrow_request_dialog.dart</code>, <code>borrow_management_dialog.dart</code></td></tr>
+  <tr><td>2</td><td>Sau khi yêu cầu mượn được duyệt, tự động cấp quyền VIEW trong <code>document_permissions</code>; thu hồi quyền khi trả</td><td><code>supabase_service.dart</code></td></tr>
+  <tr><td>3</td><td>Tích hợp <code>firebase_messaging</code>: lưu FCM token vào <code>profiles</code>, gửi thông báo khi có yêu cầu mượn, khi yêu cầu được duyệt, và khi sắp đến hạn trả</td><td><code>services/notification_service.dart</code> (mới)</td></tr>
+  <tr><td>4</td><td>Dùng Supabase Realtime để cập nhật danh sách yêu cầu mượn mà không cần tải lại</td><td><code>material_provider.dart</code></td></tr>
+  <tr><td>5</td><td>Kiểm thử luồng mượn và chia sẻ với 2 tài khoản; viết test cho chuyển trạng thái <code>BorrowRequest</code></td><td><code>test/app_test.dart</code></td></tr>
+</table>
+</div>
+
+<h2>4. Tiến độ đề xuất</h2>
+<table>
+  <tr><th>Tuần</th><th>Mốc</th><th>Người chịu trách nhiệm</th></tr>
+  <tr><td>Tuần 1</td><td>Chốt kiến trúc và schema mới, tạo Storage bucket; mọi người tạo nhánh riêng</td><td>Quang Anh</td></tr>
+  <tr><td>Tuần 2</td><td>Hoàn thành responsive + Tag, bản đồ + GPS, luồng mượn + FCM</td><td>Bình An, Nam Khánh, Hưng</td></tr>
+  <tr><td>Tuần 3</td><td>Tích hợp, cập nhật Recommendation, viết test cho từng phần</td><td>Cả nhóm</td></tr>
+  <tr><td>Tuần 4</td><td>Kiểm thử tổng thể, build APK/Web, hoàn thiện báo cáo và slide, tập thuyết trình</td><td>Quang Anh (chủ trì), cả nhóm</td></tr>
+</table>
+
+<p class="small" style="margin-top:14px">Nhóm trưởng: Phạm Quang Anh – 2351170573</p>
+</body>
+</html>
